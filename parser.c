@@ -58,8 +58,13 @@ void parse_file ( char * filename,
                   screen s) {
 
   FILE *f;
-  char line[256];
+  char line[256], args[256];
   clear_screen(s);
+
+  color c;
+  c.red = 100;
+  c.blue = 50;
+  c.green = 0;
 
   if ( strcmp(filename, "stdin") == 0 ) 
     f = stdin;
@@ -69,6 +74,24 @@ void parse_file ( char * filename,
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
     printf(":%s:\n",line);
+    if(strcmp(line,"quit") == 0){
+      return;
+    }
+    if(strcmp(line, "ident") == 0){
+      ident(transform);
+    }
+    if(strcmp(line, "apply") == 0){
+      matrix_mult(transform, edges);
+    }
+    if(strcmp(line, "display") == 0){
+      draw_lines(edges, s, c);
+      display(s);
+    }
+    if(strcmp(line, "save") == 0){
+      fgets(line, 255, f);
+      line[strlen(line)-1]='\0';
+      save_extension(s, line);
+    } 
   }
 }
   
