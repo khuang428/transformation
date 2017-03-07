@@ -23,7 +23,7 @@ The file follows the following format:
      Any command that requires arguments must have those arguments in the second line.
      The commands are as follows:
          line: add a line to the edge matrix - 
-	    takes 6 arguemnts (x0, y0, z0, x1, y1, z1)
+	    takes 6 arguments (x0, y0, z0, x1, y1, z1)
 	 ident: set the transform matrix to the identity matrix - 
 	 scale: create a scale matrix, 
 	    then multiply the transform matrix by the scale matrix - 
@@ -58,7 +58,8 @@ void parse_file ( char * filename,
                   screen s) {
 
   FILE *f;
-  char line[256], args[256];
+  char line[256];
+  int nums[6];
   clear_screen(s);
 
   color c;
@@ -90,8 +91,42 @@ void parse_file ( char * filename,
     if(strcmp(line, "save") == 0){
       fgets(line, 255, f);
       line[strlen(line)-1]='\0';
+      draw_lines(edges, s, c); 
       save_extension(s, line);
-    } 
+    }
+    if(strcmp(line, "line") == 0){
+      fgets(line, 255, f);
+      line[strlen(line)-1]='\0';
+      for(int i = 0;i < 6;i++){
+	nums[i] = atoi(strsep(line, " "));
+      }
+    }
+    if(strcmp(line, "scale") == 0){
+      fgets(line, 255, f);
+      line[strlen(line)-1]='\0';
+      for(int i = 0;i < 3;i++){
+	nums[i] = atoi(strsep(line, " "));
+      } 
+    }
+    if(strcmp(line, "translate") == 0){
+      fgets(line, 255, f);
+      line[strlen(line)-1]='\0';
+      for(int i = 0;i < 3;i++){
+	nums[i] = atoi(strsep(line, " "));
+      }
+    }
+    if(strcmp(line, "rotate") == 0){
+      fgets(line, 255, f);
+      line[strlen(line)-1]='\0';
+      char * axis = strsep(line, " ");
+      nums[0] = atoi(line);
+      if(strcmp(axis, "x") == 0){
+      }
+      if(strcmp(axis[0], "y") == 0){
+      }
+      if(strcmp(axis[0], "z") == 0){
+      } 
+    }
   }
 }
   
