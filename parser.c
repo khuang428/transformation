@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <unistd.h>
 
 #include "ml6.h"
 #include "display.h"
@@ -58,8 +59,9 @@ void parse_file ( char * filename,
                   screen s) {
 
   FILE *f;
-  char line[256];
-  int nums[6];
+  char *line;
+  double nums[6];
+  int i;
   clear_screen(s);
 
   color c;
@@ -86,45 +88,59 @@ void parse_file ( char * filename,
     }
     if(strcmp(line, "display") == 0){
       draw_lines(edges, s, c);
+      sleep(1);
       display(s);
+      clear_screen(s);
     }
     if(strcmp(line, "save") == 0){
       fgets(line, 255, f);
       line[strlen(line)-1]='\0';
       draw_lines(edges, s, c); 
       save_extension(s, line);
+      clear_screen(s);
     }
     if(strcmp(line, "line") == 0){
       fgets(line, 255, f);
       line[strlen(line)-1]='\0';
-      for(int i = 0;i < 6;i++){
-	nums[i] = atoi(strsep(line, " "));
+      for(i = 0;i < 6;i++){
+	nums[i] = atof(strsep(&line, " "));
       }
+      add_edge(edges, nums[0], nums[1], nums[2], nums[3], nums[4], nums[5]);
     }
     if(strcmp(line, "scale") == 0){
       fgets(line, 255, f);
       line[strlen(line)-1]='\0';
-      for(int i = 0;i < 3;i++){
-	nums[i] = atoi(strsep(line, " "));
-      } 
+      for(i = 0;i < 3;i++){
+	nums[i] = atof(strsep(&line, " "));
+      }
+      struct matrix * m = make_scale(nums[0], nums[1], nums[2]);
+      matrix_mult(m, transform);
     }
     if(strcmp(line, "translate") == 0){
       fgets(line, 255, f);
       line[strlen(line)-1]='\0';
-      for(int i = 0;i < 3;i++){
-	nums[i] = atoi(strsep(line, " "));
+      for(i = 0;i < 3;i++){
+	nums[i] = atof(strsep(&line, " "));
       }
+      struct matrix * m = make_translate(nums[0], nums[1], nums[2]);
+      matrix_mult(m, transform); 
     }
     if(strcmp(line, "rotate") == 0){
       fgets(line, 255, f);
       line[strlen(line)-1]='\0';
-      char * axis = strsep(line, " ");
-      nums[0] = atoi(line);
+      char * axis = strsep(&line, " ");
+      nums[0] = atof(line);
       if(strcmp(axis, "x") == 0){
+	struct matrix * m = make_rotX(nums[0]);
+	matrix_mult(m, transform);
       }
-      if(strcmp(axis[0], "y") == 0){
+      if(strcmp(axis, "y") == 0){
+	struct matrix * m = make_rotY(nums[0]);
+	matrix_mult(m, transform);
       }
-      if(strcmp(axis[0], "z") == 0){
+      if(strcmp(axis, "z") == 0){
+	struct matrix * m = make_rotZ(nums[0]);
+	matrix_mult(m, transform);
       } 
     }
   }
