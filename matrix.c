@@ -48,7 +48,7 @@ struct matrix * make_rotX(double theta) {
   ident(m);
   theta *= (M_PI / 180);
   m->m[1][1] = cos(theta);
-  m->m[1][2] = -sin(theta);
+  m->m[1][2] = -1*sin(theta);
   m->m[2][1] = sin(theta);
   m->m[2][2] = cos(theta); 
   return m;
@@ -66,8 +66,8 @@ struct matrix * make_rotY(double theta) {
   theta *= (M_PI / 180);
   m->m[0][0] = cos(theta);
   m->m[0][2] = sin(theta);
-  m->m[2][0] = sin(theta);
-  m->m[2][2] = -cos(theta); 
+  m->m[2][0] = -1*sin(theta);
+  m->m[2][2] = cos(theta); 
   return m;  
 }
 
@@ -82,7 +82,7 @@ struct matrix * make_rotZ(double theta) {
   ident(m);
   theta *= (M_PI / 180);
   m->m[0][0] = cos(theta);
-  m->m[0][1] = -sin(theta);
+  m->m[0][1] = -1*sin(theta);
   m->m[1][0] = sin(theta);
   m->m[1][1] = cos(theta);
   return m;
