@@ -1,51 +1,45 @@
 line
+100 0 0 0 0 100
+line
+0 100 0 100 0 0
+line
+0 0 0 0 100 0
+line
 0 0 0 100 0 0
-line
-100 0 0 100 100 0
-line
-100 100 0 0 100 0
-line
-0 100 0 0 0 0
-line
-0 0 100 100 0 100
-line
-100 0 100 100 100 100
-line
-100 100 100 0 100 100
-line
-0 100 100 0 0 100
 line
 0 0 0 0 0 100
 line
-0 100 0 0 100 100
+0 100 0 0 0 100
 line
-100 100 0 100 100 100
+50 25 25 25 25 50
 line
-100 0 0 100 0 100
+25 50 25 50 25 25
+line
+25 25 25 25 50 25
+line
+25 25 25 50 25 25
+line
+25 25 25 25 25 50
+line
+25 50 25 25 25 50
 display
-quit
 ident
 scale
-2 2 2
+3 3 3
 apply
 display
 ident
-move
-100 100 0
-apply
-display
-ident
-rotate
-z 20
-rotate
-x 20
-rotate
-y 20
+translate
+200 200 0
 apply
 display
 ident
 rotate
-y 20
+z 25
+rotate
+x 45
+rotate
+y 10
 apply
 display
 save
